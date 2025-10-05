@@ -1,0 +1,88 @@
+using System;
+using System.Collections.Generic;
+
+class Biblioteca
+{
+    static void Main()
+    {
+        Dictionary<string, string> catalogo = new Dictionary<string, string>();
+        HashSet<string> codigos = new HashSet<string>();
+        int opcion;
+
+        do
+        {
+            Console.WriteLine("--- MENÚ BIBLIOTECA ---");
+            Console.WriteLine("1. Agregar libro");
+            Console.WriteLine("2. Consultar libro por código");
+            Console.WriteLine("3. Mostrar todos los libros");
+            Console.WriteLine("4. Salir");
+            Console.Write("Seleccione una opción: ");
+            
+            if (!int.TryParse(Console.ReadLine(), out opcion))
+            {
+                Console.WriteLine("Opción inválida. Intente nuevamente.");
+                continue;
+            }
+
+            switch (opcion)
+            {
+                case 1:
+                    Console.Write("Ingrese el código del libro: ");
+                    string codigo = Console.ReadLine();
+
+                    if (codigos.Contains(codigo))
+                    {
+                        Console.WriteLine("El código ya existe. No se puede registrar el libro.");
+                    }
+                    else
+                    {
+                        Console.Write("Ingrese el título del libro: ");
+                        string titulo = Console.ReadLine();
+                        catalogo[codigo] = titulo;
+                        codigos.Add(codigo);
+                        Console.WriteLine("Libro agregado correctamente.");
+                    }
+                    break;
+
+                case 2:
+                    Console.Write("Ingrese el código del libro a consultar: ");
+                    string consulta = Console.ReadLine();
+
+                    if (catalogo.ContainsKey(consulta))
+                    {
+                        Console.WriteLine("Título: " + catalogo[consulta]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("El código no fue encontrado.");
+                    }
+                    break;
+
+                case 3:
+                    if (catalogo.Count == 0)
+                    {
+                        Console.WriteLine("No hay libros registrados.");
+                    }
+                    else
+                    {
+                        foreach (var libro in catalogo)
+                        {
+                            Console.WriteLine($"Código: {libro.Key} | Título: {libro.Value}");
+                        }
+                    }
+                    break;
+
+                case 4:
+                    Console.WriteLine("Saliendo del sistema...");
+                    break;
+
+                default:
+                    Console.WriteLine("Opción inválida. Intente nuevamente.");
+                    break;
+            }
+
+            Console.WriteLine();
+
+        } while (opcion != 4);
+    }
+}
